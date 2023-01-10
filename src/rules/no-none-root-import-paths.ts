@@ -1,46 +1,22 @@
-import { createRule } from '../utils';
-import path from 'path';
+import { createRule, isParentFolder, isSameFolder, getAbsolutePath } from '../utils';
 
-function isParentFolder(relativeFilePath: string, context: any, rootDir: string) {
-  const absoluteRootPath = context.getCwd() + (rootDir !== '' ? path.sep + rootDir : '');
-  const absoluteFilePath = path.join(path.dirname(context.getFilename()), relativeFilePath);
-
-  return (
-    relativeFilePath.startsWith('../') &&
-    (rootDir === '' ||
-      (absoluteFilePath.startsWith(absoluteRootPath) &&
-        context.getFilename().startsWith(absoluteRootPath)))
-  );
+interface IOptions {
+  allowSameFolder: boolean;
+  rootDir: string;
+  prefix: string;
 }
 
-function isSameFolder(path: string) {
-  return path.startsWith('./');
-}
-
-function getAbsolutePath(relativePath: string, context: any, rootDir: string, prefix: string) {
-  return [
-    prefix,
-    ...path
-      .relative(
-        context.getCwd() + (rootDir !== '' ? path.sep + rootDir : ''),
-        path.join(path.dirname(context.getFilename()), relativePath),
-      )
-      .split(path.sep),
-  ]
-    .filter(String)
-    .join('/');
-}
-
-const message = 'import statements should have an absolute path';
 const NAME = 'no-none-root-import-paths';
 
-const value = createRule({
-  create: function (context: any) {
+const value = createRule<IOptions[], string>({
+  create(context) {
     const { allowSameFolder, rootDir, prefix } = {
       allowSameFolder: context.options[0]?.allowSameFolder || false,
       rootDir: context.options[0]?.rootDir || '',
       prefix: context.options[0]?.prefix || '',
     };
+
+    console.log('>', allowSameFolder, rootDir, prefix);
 
     return {
       ImportDeclaration: function (node: any) {
@@ -50,8 +26,8 @@ const value = createRule({
         if (isParentFolder(path, context, rootDir)) {
           context.report({
             node,
-            message: message,
-            fix: function (fixer: any) {
+            messageId: 'default',
+            fix: fixer => {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
                 getAbsolutePath(path, context, rootDir || '', prefix),
@@ -63,7 +39,7 @@ const value = createRule({
         if (isSameFolder(path) && !allowSameFolder) {
           context.report({
             node,
-            message: message,
+            messageId: 'default',
             fix: function (fixer: any) {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
@@ -78,13 +54,13 @@ const value = createRule({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Ensures multiple inline imports are broken into multiple lines.',
+      description: 'Import statements should have an absolute path.',
       recommended: false,
       requiresTypeChecking: true,
     },
     fixable: 'code',
     messages: {
-      default: 'Each import should be on an individual line.',
+      default: 'Import statements should have an absolute path.',
     },
     schema: [],
     type: 'layout',

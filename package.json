@@ -1,6 +1,6 @@
 {
-  "name": "@nordclan/eslint-plugin",
-  "version": "0.0.1",
+  "name": "@nord-clan/eslint-plugin",
+  "version": "0.0.2",
   "description": "TypeScript plugin for ESLint",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
