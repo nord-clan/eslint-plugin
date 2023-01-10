@@ -2,11 +2,8 @@ export = {
   extends: ['./configs/base'],
   rules: {
     '@nord-clan/class-element-sorting': 'error',
+    '@nord-clan/alias-import-paths': ['error', { allowSameFolder: true, rootDir: '', prefix: '' }],
     '@nord-clan/feature-slice-isolation': [
-      'error',
-      { allowSameFolder: true, rootDir: '', prefix: '' },
-    ],
-    '@nord-clan/alias-import-paths': [
       'error',
       {
         layers: new Map([
