@@ -1,6 +1,6 @@
 {
   "name": "@nord-clan/eslint-plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "TypeScript plugin for ESLint",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,6 +39,7 @@
     "lint": "eslint \"./**/*.{ts,tsx}\" --quiet --cache --cache-strategy content --cache-location .eslintcache/",
     "format": "prettier -c \"./**/*.{ts,json,md}\"",
     "format:fix": "prettier -w \"./**/*.{ts,json,md}\"",
+    "prepare": "husky install .husky",
     "postclean": "rimraf dist"
   },
   "author": "",
@@ -62,5 +63,19 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.2",
     "typescript": "^4.9.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.+(js|jsx|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "src/**/*.+(js|jsx|ts|tsx|json|scss|md)": [
+      "prettier --write",
+      "prettier -c"
+    ]
   }
 }
