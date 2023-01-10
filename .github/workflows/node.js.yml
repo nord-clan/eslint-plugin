@@ -1,11 +1,10 @@
 name: Node.js Build
 
 on:
-  # Not implemented because dont have npm organisation
-  # push:
-  #   branches: [master]
-  # pull_request:
-  #   branches: [master]
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   build:
@@ -38,5 +37,6 @@ jobs:
       - name: Build project
         run: |
           pnpm build
+          pnpm test
         env:
           CI: true
