@@ -27,7 +27,7 @@ const value = createRule<IOptions[], string>({
             fix: fixer => {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
-                getAbsolutePath(path, context, rootDir || '', prefix),
+                getAbsolutePath(context, path, rootDir || '', prefix),
               );
             },
           });
