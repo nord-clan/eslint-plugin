@@ -51,7 +51,7 @@ const value = createRule<IOptions[], string>({
             [...layers.values()].find(f => node.source.value.includes(f)),
           ) ?? 0;
 
-        if (importLayer >= folderLayer) {
+        if (importLayer && importLayer >= folderLayer) {
           context.report({
             node,
             messageId: 'default',
