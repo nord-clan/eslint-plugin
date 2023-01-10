@@ -1,16 +1,18 @@
 import base from './configs/base';
-import importDeclarationNewline from './rules/import-declaration-newline';
-import noNoneRootImportPaths from './rules/no-none-root-import-paths';
+import recommended from './configs/recommended';
+import aliasImportPaths from './rules/alias-import-paths';
 import classElementSorting from './rules/class-element-sorting';
+import featureSliceIsolation from './rules/feature-slice-isolation';
 
 const configuration = {
   rules: {
-    [importDeclarationNewline.name]: importDeclarationNewline.value,
-    [noNoneRootImportPaths.name]: noNoneRootImportPaths.value,
+    [aliasImportPaths.name]: aliasImportPaths.value,
     [classElementSorting.name]: classElementSorting.value,
+    [featureSliceIsolation.name]: featureSliceIsolation.value,
   },
   configs: {
     base,
+    recommended,
   },
 };
 
