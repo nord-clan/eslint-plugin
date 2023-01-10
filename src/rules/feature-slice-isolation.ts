@@ -18,7 +18,18 @@ const value = createRule<[IOptions], MessageIds>({
     //* ├── entities    # (Опц.) Бизнес-сущности, которыми оперирует предметная область
     //* ├── shared      # Переиспользуемые модули, без привязки к бизнес-логике
 
-    for (let [key, value] of (context.options[0]?.layers ?? [])?.entries()) {
+    options.layers = new Map([
+      [0, 'none'],
+      [1, 'app'],
+      [2, 'processes'],
+      [3, 'pages'],
+      [4, 'widgets'],
+      [5, 'features'],
+      [6, 'entities'],
+      [7, 'shared'],
+    ]);
+
+    for (let [key, value] of (options.layers ?? [])?.entries()) {
       options.layers.set(key, value);
     }
 
@@ -50,6 +61,7 @@ const value = createRule<[IOptions], MessageIds>({
   },
   defaultOptions: [
     {
+      // TODO rework into classic object
       layers: new Map([
         [0, 'none'],
         [1, 'app'],
