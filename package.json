@@ -1,6 +1,6 @@
 {
   "name": "@nord-clan/eslint-plugin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "TypeScript plugin for ESLint",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "test:coverage": "jest -i --coverage --config=./jest.config.ts",
     "build": "tsc -b tsconfig.production.json",
     "clean": "tsc -b tsconfig.production.json --clean",
-    "lint": "eslint './src/**/*' --quiet --cache --cache-strategy content --cache-location '.eslintcache/'",
+    "lint": "eslint \"./**/*.{ts,tsx}\" --quiet --cache --cache-strategy content --cache-location .eslintcache/",
     "format": "prettier -c \"./**/*.{ts,json,md}\"",
     "format:fix": "prettier -w \"./**/*.{ts,json,md}\"",
     "postclean": "rimraf dist"

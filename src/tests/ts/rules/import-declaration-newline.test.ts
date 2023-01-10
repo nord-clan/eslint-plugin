@@ -12,7 +12,7 @@ tsRuleTester.run(rule.name, rule.value, {
                 k1, k2
                 } from "something"
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       errors: [
         {
           column: 1,
@@ -29,7 +29,7 @@ tsRuleTester.run(rule.name, rule.value, {
     },
     {
       code: 'import { k1, k2, k3 } from "something"',
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       errors: [
         {
           column: 1,
@@ -50,7 +50,7 @@ tsRuleTester.run(rule.name, rule.value, {
     },
     {
       code: 'import React, { useState, useEffect } from "react"',
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       errors: [
         {
           column: 1,
@@ -74,7 +74,7 @@ tsRuleTester.run(rule.name, rule.value, {
                 import React, { useState,
                 useEffect } from "react"
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       errors: [
         {
           column: 1,
@@ -100,19 +100,19 @@ tsRuleTester.run(rule.name, rule.value, {
                 k5
                 } from 'something'
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
     },
     {
       code: "import { k1 } from 'something'",
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
     },
     {
       code: "import {} from 'something'",
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
     },
     {
       code: "import React, { useState } from 'react'",
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
     },
     {
       code: dedent`
@@ -121,7 +121,7 @@ tsRuleTester.run(rule.name, rule.value, {
                 useEffect,
                 } from 'react'
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
     },
   ],
 });

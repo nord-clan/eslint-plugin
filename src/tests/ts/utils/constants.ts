@@ -1,1 +1,1 @@
-export const TS_FILE_PATH = './files/file.ts';
+export const TS_FILE_PATH = './files/';

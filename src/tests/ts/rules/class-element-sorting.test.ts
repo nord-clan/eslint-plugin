@@ -123,7 +123,7 @@ tsRuleTester.run(rule.name, rule.value, {
                     }
                 }
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       output: dedent`
                 export class Person {
                 static alberta() {
@@ -213,7 +213,7 @@ tsRuleTester.run(rule.name, rule.value, {
   ],
   valid: [
     {
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/index.ts`,
       code: dedent`
                 export class Person {
                     static alberta() {

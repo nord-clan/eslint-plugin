@@ -9,9 +9,8 @@ tsRuleTester.run(rule.name, rule.value, {
     {
       code: dedent`
                 import { K } from "../../something"
-                import { K } from "../../something"
             `,
-      filename: TS_FILE_PATH,
+      filename: `${TS_FILE_PATH}/layers/app/index.ts`,
     },
   ],
 });

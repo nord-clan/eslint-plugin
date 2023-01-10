@@ -17,10 +17,10 @@ const value = createRule<IOptions[], string>({
     };
 
     return {
-      ImportDeclaration: function (node: any) {
+      ImportDeclaration: node => {
         const path = node.source.value;
 
-        if (isParentFolder(path, context, rootDir)) {
+        if (isParentFolder(context, path, rootDir)) {
           context.report({
             node,
             messageId: 'default',
@@ -37,10 +37,10 @@ const value = createRule<IOptions[], string>({
           context.report({
             node,
             messageId: 'default',
-            fix: function (fixer: any) {
+            fix: fixer => {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
-                getAbsolutePath(path, context, rootDir || '', prefix),
+                getAbsolutePath(context, path, rootDir || '', prefix),
               );
             },
           });

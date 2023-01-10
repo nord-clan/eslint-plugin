@@ -1,1 +1,1 @@
-export const TSX_FILE_PATH = './file.tsx';
+export const TSX_FILE_PATH = './files/';

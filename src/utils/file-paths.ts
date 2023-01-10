@@ -1,7 +1,12 @@
+import { RuleContext } from '@typescript-eslint/utils/dist/ts-eslint';
 import path from 'path';
 
-export function isParentFolder(relativeFilePath: string, context: any, rootDir: string) {
-  const absoluteRootPath = context.getCwd() + (rootDir !== '' ? path.sep + rootDir : '');
+export function isParentFolder<T>(
+  context: RuleContext<string, T[]>,
+  relativeFilePath: string,
+  rootDir: string,
+) {
+  const absoluteRootPath = `${context.getCwd?.()}${rootDir !== '' ? path.sep + rootDir : ''}`;
   const absoluteFilePath = path.join(path.dirname(context.getFilename()), relativeFilePath);
 
   return (
@@ -16,9 +21,9 @@ export function isSameFolder(path: string) {
   return path.startsWith('./');
 }
 
-export function getAbsolutePath(
+export function getAbsolutePath<T>(
+  context: RuleContext<string, T[]>,
   relativePath: string,
-  context: any,
   rootDir: string,
   prefix: string,
 ) {
@@ -26,7 +31,7 @@ export function getAbsolutePath(
     prefix,
     ...path
       .relative(
-        context.getCwd() + (rootDir !== '' ? path.sep + rootDir : ''),
+        `${context.getCwd?.()}${rootDir !== '' ? path.sep + rootDir : ''}`,
         path.join(path.dirname(context.getFilename()), relativePath),
       )
       .split(path.sep),
@@ -35,8 +40,8 @@ export function getAbsolutePath(
     .join('/');
 }
 
-export function getParsedPath(context: any) {
-  const cwd = path.resolve(context.getCwd());
+export function getParsedPath<T>(context: RuleContext<string, T[]>) {
+  const cwd = path.resolve(context.getCwd?.() ?? '');
   const filePath = context.getFilename();
 
   const absolutePath = path.resolve(filePath);
