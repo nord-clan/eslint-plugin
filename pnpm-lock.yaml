@@ -13,6 +13,7 @@ specifiers:
   jest: ^29.3.1
   lint-staged: ^13.1.0
   prettier: ^2.8.2
+  rimraf: ^3.0.2
   ts-jest: ^29.0.3
   ts-node: ^10.9.1
   ts-node-dev: ^2.0.0
@@ -32,6 +33,7 @@ devDependencies:
   jest: 29.3.1_zfha7dvnw4nti6zkbsmhmn6xo4
   lint-staged: 13.1.0
   prettier: 2.8.2
+  rimraf: 3.0.2
   ts-jest: 29.0.3_a67wnu7kur6t3xg6vztzc6sc5i
   ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
   ts-node-dev: 2.0.0_awa2wsr5thmg3i7jqycphctjfq

@@ -16,12 +16,9 @@ const value = createRule<IOptions[], string>({
       prefix: context.options[0]?.prefix || '',
     };
 
-    console.log('>', allowSameFolder, rootDir, prefix);
-
     return {
       ImportDeclaration: function (node: any) {
         const path = node.source.value;
-        console.log('path', path);
 
         if (isParentFolder(path, context, rootDir)) {
           context.report({

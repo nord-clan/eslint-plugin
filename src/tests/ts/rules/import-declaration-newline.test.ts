@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-
 import dedent from 'dedent';
 
 import rule from '../../../rules/import-declaration-newline';

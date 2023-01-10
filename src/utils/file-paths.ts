@@ -34,3 +34,18 @@ export function getAbsolutePath(
     .filter(String)
     .join('/');
 }
+
+export function getParsedPath(context: any) {
+  const cwd = path.resolve(context.getCwd());
+  const filePath = context.getFilename();
+
+  const absolutePath = path.resolve(filePath);
+  const relativePath = path.relative(cwd, absolutePath);
+  const parsed = path.parse(relativePath);
+
+  return {
+    ...parsed,
+    ext: parsed.ext.slice(1),
+    path: relativePath,
+  };
+}
