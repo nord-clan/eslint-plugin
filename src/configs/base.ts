@@ -1,0 +1,3 @@
+export = {
+  plugins: ['@nord-clan'],
+};
