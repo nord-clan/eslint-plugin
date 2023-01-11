@@ -21,7 +21,7 @@ const value = createRule<[IOptions], MessageIds>({
       ImportDeclaration: node => {
         const path = node.source.value;
 
-        if (!ignoredFolders?.length) {
+        if (ignoredFolders?.length) {
           const folderPath = getAbsolutePath(context, path, rootDir, prefix);
           if (ignoredFolders.find(f => folderPath.includes(f))) return;
         }
