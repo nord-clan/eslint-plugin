@@ -6,7 +6,7 @@ export function isParentFolder<T>(
   relativeFilePath: string,
   rootDir: string,
 ) {
-  const absoluteRootPath = `${context.getCwd?.()}${rootDir !== '' ? path.sep + rootDir : ''}`;
+  const absoluteRootPath = context.getCwd?.() + (rootDir !== '' ? path.sep + rootDir : '');
   const absoluteFilePath = path.join(path.dirname(context.getFilename()), relativeFilePath);
 
   return (
@@ -31,7 +31,7 @@ export function getAbsolutePath<T>(
     prefix,
     ...path
       .relative(
-        `${context.getCwd?.()}${rootDir !== '' ? path.sep + rootDir : ''}`,
+        context.getCwd?.() + (rootDir !== '' ? path.sep + rootDir : ''),
         path.join(path.dirname(context.getFilename()), relativePath),
       )
       .split(path.sep),

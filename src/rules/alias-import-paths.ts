@@ -2,8 +2,8 @@ import { createRule, isParentFolder, isSameFolder, getAbsolutePath } from '../ut
 
 interface IOptions {
   allowSameFolder?: boolean;
-  rootDir?: string;
-  prefix?: string;
+  rootDir: string;
+  prefix: string;
 }
 
 type MessageIds = 'default';
@@ -20,14 +20,14 @@ const value = createRule<[IOptions], MessageIds>({
       ImportDeclaration: node => {
         const path = node.source.value;
 
-        if (isParentFolder(context, path, rootDir ?? '')) {
+        if (isParentFolder(context, path, rootDir)) {
           context.report({
             node,
             messageId: 'default',
             fix: fixer => {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
-                getAbsolutePath(context, path, rootDir ?? '', prefix ?? ''),
+                getAbsolutePath(context, path, rootDir, prefix),
               );
             },
           });
@@ -40,7 +40,7 @@ const value = createRule<[IOptions], MessageIds>({
             fix: fixer => {
               return fixer.replaceTextRange(
                 [node.source.range[0] + 1, node.source.range[1] - 1],
-                getAbsolutePath(context, path, rootDir ?? '', prefix ?? ''),
+                getAbsolutePath(context, path, rootDir, prefix),
               );
             },
           });
