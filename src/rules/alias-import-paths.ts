@@ -4,6 +4,7 @@ interface IOptions {
   allowSameFolder?: boolean;
   rootDir: string;
   prefix: string;
+  ignoredFolders: string[];
 }
 
 type MessageIds = 'default';
@@ -14,11 +15,16 @@ const NAME = 'alias-import-paths';
 /** @type {import('eslint').Rule.RuleModule} */
 const value = createRule<[IOptions], MessageIds>({
   create(context, [options]) {
-    const { allowSameFolder, rootDir, prefix } = options;
+    const { allowSameFolder, rootDir, prefix, ignoredFolders } = options;
 
     return {
       ImportDeclaration: node => {
         const path = node.source.value;
+
+        if (!ignoredFolders?.length) {
+          const folderPath = getAbsolutePath(context, path, rootDir, prefix);
+          if (ignoredFolders.find(f => folderPath.includes(f))) return;
+        }
 
         if (isParentFolder(context, path, rootDir)) {
           context.report({
@@ -53,6 +59,7 @@ const value = createRule<[IOptions], MessageIds>({
       allowSameFolder: false,
       rootDir: '',
       prefix: '',
+      ignoredFolders: [],
     },
   ],
   meta: {
@@ -69,6 +76,7 @@ const value = createRule<[IOptions], MessageIds>({
         allowSameFolder: true,
         rootDir: '',
         prefix: '',
+        ignoreFolders: [],
       },
     ],
     type: 'layout',
