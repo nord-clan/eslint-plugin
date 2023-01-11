@@ -1,13 +1,16 @@
-import { getByValue, createRule, getParsedPath } from '../utils';
+import { createRule, getParsedPath } from '../utils';
 
 interface IOptions {
-  layers: Map<number, string>;
+  layers: Record<number, string>;
+  allowedFolders?: string[];
 }
 
 type MessageIds = 'default';
 
 const NAME = 'feature-slice-isolation';
 
+// @ts-check
+/** @type {import('eslint').Rule.RuleModule} */
 const value = createRule<[IOptions], MessageIds>({
   create(context, [options]) {
     //* ├── app         # Инициализирующая логика приложения
@@ -18,39 +21,24 @@ const value = createRule<[IOptions], MessageIds>({
     //* ├── entities    # (Опц.) Бизнес-сущности, которыми оперирует предметная область
     //* ├── shared      # Переиспользуемые модули, без привязки к бизнес-логике
 
-    options.layers = new Map([
-      [0, 'none'],
-      [1, 'app'],
-      [2, 'processes'],
-      [3, 'pages'],
-      [4, 'widgets'],
-      [5, 'features'],
-      [6, 'entities'],
-      [7, 'shared'],
-    ]);
+    const { layers, allowedFolders = [] } = options;
 
-    for (let [key, value] of (options.layers ?? [])?.entries()) {
-      options.layers.set(key, value);
+    const entries = Object.entries(layers);
+    for (let [key, value] of entries) {
+      layers[key as unknown as number] = value;
     }
 
     return {
       ImportDeclaration: node => {
         const { dir } = getParsedPath(context);
-        const { layers } = options;
 
-        const folderLayer =
-          getByValue(
-            layers,
-            [...layers.values()].find(f => dir.includes(f)),
-          ) ?? 0;
+        const folderLayer = [...entries.values()].find(f => dir.includes(f[1]))?.[0];
+        const importLayer = [...entries.values()].find(f => node.source.value.includes(f[1]))?.[0];
 
-        const importLayer =
-          getByValue(
-            layers,
-            [...layers.values()].find(f => node.source.value.includes(f)),
-          ) ?? 0;
+        if (!folderLayer || !importLayer) return;
+        if (allowedFolders.find(f => f === layers[importLayer as unknown as number])) return;
 
-        if (importLayer && importLayer >= folderLayer) {
+        if (!!importLayer && importLayer >= folderLayer) {
           context.report({
             node,
             messageId: 'default',
@@ -61,17 +49,16 @@ const value = createRule<[IOptions], MessageIds>({
   },
   defaultOptions: [
     {
-      // TODO rework into classic object
-      layers: new Map([
-        [0, 'none'],
-        [1, 'app'],
-        [2, 'processes'],
-        [3, 'pages'],
-        [4, 'widgets'],
-        [5, 'features'],
-        [6, 'entities'],
-        [7, 'shared'],
-      ]),
+      layers: {
+        1: 'app',
+        2: 'processes',
+        3: 'pages',
+        4: 'widgets',
+        5: 'features',
+        6: 'entities',
+        7: 'shared',
+      },
+      allowedFolders: [],
     },
   ],
   meta: {
@@ -79,21 +66,31 @@ const value = createRule<[IOptions], MessageIds>({
       description:
         'Each layer is located only at the topmost level, and cannot occur again at another nesting level.',
       recommended: false,
-      requiresTypeChecking: true,
     },
     fixable: 'code',
     messages: {
       default:
         'Each layer is located only at the topmost level, and cannot occur again at another nesting level.',
     },
-    schema: [],
+    schema: [
+      {
+        layers: {
+          0: 'none',
+          1: 'app',
+          2: 'processes',
+          3: 'pages',
+          4: 'widgets',
+          5: 'features',
+          6: 'entities',
+          7: 'shared',
+        },
+      },
+    ],
     type: 'layout',
   },
   name: NAME,
 });
 
-// @ts-check
-/** @type {import('eslint').Rule.RuleModule} */
 export default {
   name: NAME,
   value,

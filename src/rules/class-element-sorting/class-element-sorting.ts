@@ -8,6 +8,8 @@ import { sortMembers } from './sortMembers';
 
 const NAME = 'class-element-sorting';
 
+// @ts-check
+/** @type {import('eslint').Rule.RuleModule} */
 const value = createRule({
   create(context) {
     return {

@@ -33,5 +33,9 @@ tsRuleTester.run(rule.name, rule.value, {
       code: dedent`import { K } from "./feature/index.ts"`,
       filename: `${TS_FILE_PATH}/layers/features/index.ts`,
     },
+    {
+      code: dedent`import { K } from "./unnamed/index.ts"`,
+      filename: `${TS_FILE_PATH}/layers/features/index.ts`,
+    },
   ],
 });

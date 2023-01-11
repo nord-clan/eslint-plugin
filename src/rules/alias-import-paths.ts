@@ -10,6 +10,8 @@ type MessageIds = 'default';
 
 const NAME = 'alias-import-paths';
 
+// @ts-check
+/** @type {import('eslint').Rule.RuleModule} */
 const value = createRule<[IOptions], MessageIds>({
   create(context, [options]) {
     const { allowSameFolder, rootDir, prefix } = options;
@@ -57,20 +59,23 @@ const value = createRule<[IOptions], MessageIds>({
     docs: {
       description: 'Import statements should have an absolute path.',
       recommended: false,
-      requiresTypeChecking: true,
     },
     fixable: 'code',
     messages: {
       default: 'Import statements should have an absolute path.',
     },
-    schema: [],
+    schema: [
+      {
+        allowSameFolder: true,
+        rootDir: '',
+        prefix: '',
+      },
+    ],
     type: 'layout',
   },
   name: NAME,
 });
 
-// @ts-check
-/** @type {import('eslint').Rule.RuleModule} */
 export default {
   name: NAME,
   value,
