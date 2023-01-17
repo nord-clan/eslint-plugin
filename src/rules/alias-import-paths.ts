@@ -1,10 +1,14 @@
 import { createRule, isParentFolder, isSameFolder, getAbsolutePath } from '../utils';
 
-interface IOptions {
+interface IPathSettings {
   allowSameFolder?: boolean;
   rootDir: string;
   prefix: string;
   ignoredFolders: string[];
+}
+
+interface IOptions {
+  paths: IPathSettings[];
 }
 
 type MessageIds = 'default';
@@ -15,31 +19,38 @@ const NAME = 'alias-import-paths';
 /** @type {import('eslint').Rule.RuleModule} */
 const value = createRule<[IOptions], MessageIds>({
   create(context, [options]) {
-    const { allowSameFolder, rootDir, prefix, ignoredFolders } = options;
+    const { paths } = options;
 
     return {
       ImportDeclaration: node => {
         const path = node.source.value;
 
-        if (ignoredFolders?.length) {
-          const folderPath = getAbsolutePath(context, path, rootDir, prefix);
-          if (ignoredFolders.find(f => folderPath.includes(f))) return;
+        for (let i = 0; i < paths?.length; i += 1) {
+          const {
+            allowSameFolder = false,
+            rootDir,
+            prefix,
+            ignoredFolders = [],
+          } = paths.at(i) as IPathSettings;
+
+          if (ignoredFolders?.length) {
+            const folderPath = getAbsolutePath(context, path, rootDir, prefix);
+            if (ignoredFolders.find(f => folderPath.includes(f))) {
+              continue;
+            }
+          }
+
+          if (isParentFolder(context, path, rootDir)) {
+            fixPath(rootDir, prefix);
+            break;
+          }
+          if (isSameFolder(path) && !allowSameFolder) {
+            fixPath(rootDir, prefix);
+            break;
+          }
         }
 
-        if (isParentFolder(context, path, rootDir)) {
-          context.report({
-            node,
-            messageId: 'default',
-            fix: fixer => {
-              return fixer.replaceTextRange(
-                [node.source.range[0] + 1, node.source.range[1] - 1],
-                getAbsolutePath(context, path, rootDir, prefix),
-              );
-            },
-          });
-        }
-
-        if (isSameFolder(path) && !allowSameFolder) {
+        function fixPath(rootDir: string, prefix: string) {
           context.report({
             node,
             messageId: 'default',
@@ -56,10 +67,14 @@ const value = createRule<[IOptions], MessageIds>({
   },
   defaultOptions: [
     {
-      allowSameFolder: false,
-      rootDir: '',
-      prefix: '',
-      ignoredFolders: [],
+      paths: [
+        {
+          allowSameFolder: false,
+          rootDir: '',
+          prefix: '',
+          ignoredFolders: [],
+        },
+      ],
     },
   ],
   meta: {
@@ -73,10 +88,14 @@ const value = createRule<[IOptions], MessageIds>({
     },
     schema: [
       {
-        allowSameFolder: true,
-        rootDir: '',
-        prefix: '',
-        ignoreFolders: [],
+        paths: [
+          {
+            allowSameFolder: false,
+            rootDir: '',
+            prefix: '',
+            ignoredFolders: [],
+          },
+        ],
       },
     ],
     type: 'layout',

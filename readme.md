@@ -12,7 +12,7 @@ Modify your `.eslintrc` file to load the plugin and enable the rules you want to
     "@nord-clan/class-element-sorting": "error",
     "@nord-clan/alias-import-paths": [
       "error",
-      { "allowSameFolder": true, "rootDir": "", "prefix": "" }
+      [{ "allowSameFolder": true, "rootDir": "", "prefix": "" }]
     ],
     "@nord-clan/feature-slice-isolation": [
       "error",
