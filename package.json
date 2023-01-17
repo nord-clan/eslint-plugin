@@ -1,6 +1,6 @@
 {
   "name": "@nord-clan/eslint-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript plugin for ESLint",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,7 @@
     "typescript"
   ],
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=14.21.2",
     "npm": "please use yarn or pnpm",
     "yarn": ">=1",
     "pnpm": ">=7"
