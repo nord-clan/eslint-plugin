@@ -4,7 +4,7 @@ export = {
     '@nord-clan/class-element-sorting': 'error',
     '@nord-clan/alias-import-paths': [
       'error',
-      [{ allowSameFolder: true, rootDir: '', prefix: '' }],
+      { paths: [{ allowSameFolder: true, rootDir: '', prefix: '' }] },
     ],
     '@nord-clan/feature-slice-isolation': [
       'error',
