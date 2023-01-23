@@ -3,6 +3,7 @@ import { createRule, getParsedPath } from '../utils';
 interface IOptions {
   layers: Record<number, string>;
   allowedFolders?: string[];
+  isAllowedSameLayer?: boolean;
 }
 
 type MessageIds = 'default';
@@ -21,7 +22,7 @@ const value = createRule<[IOptions], MessageIds>({
     //* ├── entities    # (Опц.) Бизнес-сущности, которыми оперирует предметная область
     //* ├── shared      # Переиспользуемые модули, без привязки к бизнес-логике
 
-    const { layers, allowedFolders = [] } = options;
+    const { layers, allowedFolders = [], isAllowedSameLayer = true } = options;
 
     const entries = Object.entries(layers);
     for (let [key, value] of entries) {
@@ -36,9 +37,20 @@ const value = createRule<[IOptions], MessageIds>({
         const importLayer = [...entries.values()].find(f => node.source.value.includes(f[1]))?.[0];
 
         if (!folderLayer || !importLayer) return;
-        if (allowedFolders.find(f => f === layers[importLayer as unknown as number])) return;
+        if (
+          allowedFolders.find(
+            f =>
+              f === layers[importLayer as unknown as number] ||
+              f === layers[folderLayer as unknown as number],
+          )
+        )
+          return;
 
-        if (!!importLayer && importLayer >= folderLayer) {
+        if (
+          !!importLayer && isAllowedSameLayer
+            ? importLayer < folderLayer
+            : importLayer <= folderLayer
+        ) {
           context.report({
             node,
             messageId: 'default',
@@ -59,6 +71,7 @@ const value = createRule<[IOptions], MessageIds>({
         7: 'shared',
       },
       allowedFolders: [],
+      isAllowedSameLayer: true,
     },
   ],
   meta: {
@@ -84,6 +97,8 @@ const value = createRule<[IOptions], MessageIds>({
           6: 'entities',
           7: 'shared',
         },
+        allowedFolders: [],
+        isAllowedSameLayer: true,
       },
     ],
     type: 'layout',

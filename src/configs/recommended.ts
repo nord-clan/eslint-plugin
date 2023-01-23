@@ -19,6 +19,7 @@ export = {
           7: 'shared',
         },
         allowedFolders: [],
+        isAllowedSameLayer: true,
       },
     ],
   },

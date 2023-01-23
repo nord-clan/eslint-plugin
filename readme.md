@@ -26,7 +26,8 @@ Modify your `.eslintrc` file to load the plugin and enable the rules you want to
           "6": "entities",
           "7": "shared"
         },
-        "allowedFolders": []
+        "allowedFolders": [],
+        "isAllowedSameLayer": true
       }
     ]
   }
@@ -54,5 +55,4 @@ Modify your `.eslintrc` file to load the plugin and enable the rules you want to
 > reference import
 > ![image](https://user-images.githubusercontent.com/102309602/212839829-f26ef6f3-dbf9-4b2a-a6b6-092066f8b1e0.png)
 
-> eslint auto fixed into <br />
-> ![image](https://user-images.githubusercontent.com/102309602/212839994-8a432b85-5591-404d-877d-af060b16301e.png)
+> eslint auto fixed into <br /> > ![image](https://user-images.githubusercontent.com/102309602/212839994-8a432b85-5591-404d-877d-af060b16301e.png)
