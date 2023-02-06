@@ -1,7 +1,6 @@
 export = {
   extends: ['./configs/base'],
   rules: {
-    '@nord-clan/class-element-sorting': 'error',
     '@nord-clan/alias-import-paths': [
       'error',
       { paths: [{ allowSameFolder: true, rootDir: '', prefix: '' }] },

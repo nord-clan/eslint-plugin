@@ -1,5 +1,7 @@
 dist
 node_modules
-.vscode
+pnpm-lock.yaml
 coverage
+.vscode
 .eslintcache
+.turbo

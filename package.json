@@ -1,7 +1,7 @@
 {
   "name": "@nord-clan/eslint-plugin",
-  "version": "1.0.2",
-  "description": "TypeScript plugin for ESLint",
+  "version": "1.0.3",
+  "description": "ESLint plugin for fsd architecture",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
@@ -14,13 +14,14 @@
     "readme.md"
   ],
   "keywords": [
+    "fsd",
     "eslint",
     "eslintplugin",
     "eslint-plugin",
     "typescript"
   ],
   "engines": {
-    "node": ">=14.21.2",
+    "node": ">=16.19.0",
     "npm": "please use yarn or pnpm",
     "yarn": ">=1",
     "pnpm": ">=7"
@@ -30,40 +31,49 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --pretty --transpile-only -r tsconfig-paths/register src/index.ts",
+    "dev": "turbo run start:dev",
+    "start:dev": "ts-node-dev --respawn --pretty --transpile-only -r tsconfig-paths/register src/index.ts",
     "test": "jest --config=./jest.config.ts --runInBand",
     "test:watch": "jest --watch --config=./jest.config.ts",
     "test:coverage": "jest -i --coverage --config=./jest.config.ts",
-    "build": "tsc -b tsconfig.production.json",
-    "clean": "tsc -b tsconfig.production.json --clean",
+    "build": "turbo run build:tsc",
+    "build:tsc": "tsc -b tsconfig.production.json",
+    "clean": "rimraf dist",
     "lint": "eslint \"./**/*.{ts,tsx}\" --quiet --cache --cache-strategy content --cache-location .eslintcache/",
     "format": "prettier -c \"./**/*.{ts,json,md}\"",
     "format:fix": "prettier -w \"./**/*.{ts,json,md}\"",
     "prepare": "husky install .husky",
-    "postclean": "rimraf dist"
+    "prepublishOnly": "clean-package"
   },
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Ivan Kornilov",
+    "email": "ivan.kornilov@nordclan.com",
+    "url": "https://t.me/xsolncu"
+  },
+  "license": "MIT",
   "dependencies": {
-    "@typescript-eslint/utils": "^5.48.1"
+    "@typescript-eslint/utils": "^5.49.0"
   },
   "devDependencies": {
-    "@jest/types": "^29.3.1",
+    "@jest/types": "^29.4.0",
     "@types/dedent": "^0.7.0",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/parser": "^5.49.0",
+    "clean-package": "^2.2.0",
     "dedent": "^0.7.0",
-    "eslint": "8.31.0",
-    "eslint-plugin-eslint-plugin": "^5.0.7",
+    "eslint": "8.32.0",
+    "eslint-plugin-eslint-plugin": "^5.0.8",
+    "eslint-plugin-turbo": "^0.0.7",
     "husky": "^8.0.3",
-    "jest": "^29.3.1",
+    "jest": "^29.4.0",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.2",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^29.0.3",
+    "prettier": "^2.8.3",
+    "rimraf": "^4.1.2",
+    "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.2",
+    "turbo": "latest",
     "typescript": "^4.9.4"
   },
   "husky": {
@@ -76,8 +86,17 @@
       "eslint --fix"
     ],
     "src/**/*.+(js|jsx|ts|tsx|json|scss|md)": [
-      "prettier --write",
-      "prettier -c"
+      "prettier --write"
+    ]
+  },
+  "clean-package": {
+    "remove": [
+      "lint-staged",
+      "husky",
+      "engines",
+      "publishConfig",
+      "devDependencies",
+      "clean-package"
     ]
   }
 }

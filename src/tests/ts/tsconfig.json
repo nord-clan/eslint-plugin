@@ -3,7 +3,7 @@
     "jsx": "preserve",
     "target": "es5",
     "module": "commonjs",
-    "strict": true, 
+    "strict": true,
     "esModuleInterop": true,
     "types": [],
     "lib": ["es2015", "es2017", "esnext"],
